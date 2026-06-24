@@ -1,0 +1,505 @@
+{
+  "name": "Linkedin Content Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M",
+          "mode": "list",
+          "cachedResultName": "LinkedIn_Content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        112
+      ],
+      "id": "cc58946e-df98-4835-bd22-0e031f129747",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "S3UR3Slv7DqLJJot",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba796ff6-7363-45d9-a971-cc16261d4615",
+              "name": "=linkedin_post",
+              "value": "={{$json[\"output\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        -64
+      ],
+      "id": "e45c6e42-4ebf-4f7c-87cc-2aa327281858",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f1a42d55-c97b-480a-ac91-32fa5ef5d30a",
+              "leftValue": "={{$json[\"Status\"]}}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a9c5d8a9-29ec-42c4-952b-d4e8bcf5eba2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M",
+          "mode": "list",
+          "cachedResultName": "LinkedIn_Content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Topic": "={{$node[\"Google Sheets Trigger\"].json[\"Topic\"]}}",
+            "Status": "Review",
+            "Linkedin Post": "={{$json[\"linkedin_post\"]}}"
+          },
+          "matchingColumns": [
+            "Topic"
+          ],
+          "schema": [
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Linkedin Post",
+              "displayName": "Linkedin Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1024,
+        -64
+      ],
+      "id": "0ce8986c-648f-4881-a060-b90513a681c9",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1c0ZFug7mtBc0sFy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        400,
+        128
+      ],
+      "id": "541c5cc9-8a0f-4b9a-a8c0-472d5deb6345",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        592,
+        192
+      ],
+      "id": "fd7cb539-00e1-45fc-a8da-18d332e6ceea",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "S3sNV282UmWEFCb0",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a professional LinkedIn post about {{$json[\"Topic\"]}}.\n\nRequirements:\n- 150-250 words\n- Professional tone\n- Start with a strong hook\n- Use emojis naturally\n- Use short paragraphs\n- End with an engagement question\n- Add 5-8 relevant hashtags\n\nReturn ONLY the LinkedIn post.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        -64
+      ],
+      "id": "9ae1e14f-7ebc-4f77-ac3f-1dd32167c689",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0d08d9b4-82c7-4547-8a73-a594a68c0f1f",
+              "leftValue": "={{$json[\"Status\"]}}",
+              "rightValue": "Approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        192,
+        336
+      ],
+      "id": "6c88c441-2dba-430e-9b71-0dde484e30b3",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "person": "erzF390yG7",
+        "text": "={{$json[\"Linkedin Post\"]}}\n\nTest run at {{$now}}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        416,
+        320
+      ],
+      "id": "24d3a756-b2d8-49ec-b74f-20d34b8671b3",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "QSDOn0cxR4xNhyCE",
+          "name": "LinkedIn account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M",
+          "mode": "list",
+          "cachedResultName": "LinkedIn_Content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JrHhhDlq_7qr9AYbP0ZImTt2FKdX-c5MnepTAh_af2M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Category": "",
+            "Topic": "={{$json[\"Topic\"]}}",
+            "Status": "Posted"
+          },
+          "matchingColumns": [
+            "Topic"
+          ],
+          "schema": [
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Linkedin Post",
+              "displayName": "Linkedin Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        320
+      ],
+      "id": "911a859a-8a1b-4ff5-b2c3-11bee78f3b61",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1c0ZFug7mtBc0sFy",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "822b487b-d56b-494c-9f78-36be632b1df5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2c8c6cc36705427834587c30fb22a1c75b71360ae0f7f0807c3edf6b713068df"
+  },
+  "nodeGroups": [],
+  "id": "IFzQLEN9iJdCMsEa",
+  "tags": []
+}
